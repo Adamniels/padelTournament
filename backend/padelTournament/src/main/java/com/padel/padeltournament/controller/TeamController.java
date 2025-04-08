@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+// Detta vill jag kanske ha i framtiden om man ska ha långtids turneringar eller liknande
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {
@@ -21,7 +22,6 @@ public class TeamController {
 
     @PostMapping
     public Team createTeam(@RequestBody Team team) {
-        System.out.println("create team kallades (debug)");
         team.setId(idCounter.getAndIncrement());
         teams.add(team);
         return team;
