@@ -1,1 +1,36 @@
-/* color palette from <https://github.com/vuejs/theme> */
+/* base.css */
+:root {
+    --primary-color: #42b883;
+    --accent-color: #35495e;
+    --bg-color: #f8f8f8;
+    --font-stack: 'Segoe UI', sans-serif;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    font-family: var(--font-stack);
+    color: var(--accent-color);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+  }
+  
+  button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5em 1em;
+    margin-top: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #2c9c6a;
+  }
+  

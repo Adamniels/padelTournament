@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import HomeView from "./views/HomeView.vue";
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-  </main>
+  <div class="app-wrapper">
+    <router-view />
+  </div>
 </template>
 
-<style scoped>
-
+<style>
+.app-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
 </style>
