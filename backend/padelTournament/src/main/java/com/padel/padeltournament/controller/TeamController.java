@@ -7,7 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-// Detta vill jag kanske ha i framtiden om man ska ha långtids turneringar eller liknande
+/**
+ * NOTE this is not in use at the moment, might be something i want in the
+ * future
+ */
 @RestController
 @RequestMapping("/api/teams")
 public class TeamController {

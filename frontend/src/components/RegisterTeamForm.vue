@@ -19,7 +19,7 @@ const submitTeam = async () => {
   if (!teamName.value.trim()) return;
 
   // TODO: add to api/tournament/add-team istället och ta bort den handlern
-  const response = await fetch("http://localhost:8080/api/teams", {
+  const response = await fetch("http://localhost:8080/api/tournaments/add-team", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name: teamName.value }),

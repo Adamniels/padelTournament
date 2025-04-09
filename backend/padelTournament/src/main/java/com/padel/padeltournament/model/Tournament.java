@@ -13,7 +13,7 @@ public class Tournament {
     private List<Team> teams;
     // TODO: add matches
 
-    // --- Konstruktörer ---
+    // --- Constructor ---
 
     public Tournament() {
     }
@@ -25,6 +25,14 @@ public class Tournament {
         this.createdAt = LocalDateTime.now();
         this.teams = new ArrayList<>();
         // starta även turneringen
+    }
+
+    public void addTeam(Team team) {
+        this.teams.add(team);
+    }
+
+    public void removeTeam(int index) {
+        this.teams.remove(index);
     }
 
     // --- Getters & Setters ---

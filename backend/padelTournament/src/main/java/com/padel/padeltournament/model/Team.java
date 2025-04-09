@@ -4,7 +4,9 @@ public class Team {
     private Long id;
     private String name;
 
-    public Team() {} // behöver en tom konstruktor också, som är för JSON mappning senare
+    // Need a empty constructor to, for the JSON mapping (in the future)
+    public Team() {
+    }
 
     public Team(Long id, String name) {
         this.id = id;
@@ -27,4 +29,5 @@ public class Team {
     public void setName(String name) {
         this.name = name;
     }
+    // TODO: gör en toString metod så att det går att printa ut
 }

@@ -3,8 +3,9 @@
     <h3>Teams</h3>
 
     <ul v-if="teams.length">
-      <li v-for="team in teams" :key="team.id">
+      <li v-for="(team, index) in teams" :key="index">
         {{ team.name }}
+        <button @click="removeTeam(index)">X</button>
       </li>
     </ul>
 
@@ -19,12 +20,28 @@ const teams = ref([]);
 
 const fetchTeams = async () => {
   try {
-    const response = await fetch("http://localhost:8080/api/teams");
+    const response = await fetch(
+      "http://localhost:8080/api/tournaments/get-teams"
+    );
     if (response.ok) {
       teams.value = await response.json();
     }
   } catch (error) {
     console.error("Couldn't get teams:", error);
+  }
+};
+
+const removeTeam = async (index) => {
+  const res = await fetch("http://localhost:8080/api/tournaments/remove-team", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(index),
+  });
+
+  if (res.ok) {
+    teams.value.splice(index, 1); // Ta bort från local lista också
+  } else {
+    alert("Couldn't remove team.");
   }
 };
 
