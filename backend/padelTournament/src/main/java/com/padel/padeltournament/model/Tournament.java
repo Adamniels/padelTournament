@@ -5,82 +5,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tournament {
-    private Integer id; // kan vara null tills man sparar
-    private String name;
-    private boolean started = false;
-    private boolean finished = false;
-    private LocalDateTime createdAt;
-    private List<Team> teams;
-    // TODO: add matches
+  private Integer id; // kan vara null tills man sparar
+  private String name;
+  private boolean started = false;
+  private boolean finished = false;
+  private LocalDateTime createdAt;
+  private List<Team> teams;
+  // TODO: add matches
 
-    // --- Constructor ---
+  // --- Constructor ---
 
-    public Tournament() {
-    }
+  public Tournament() {
+  }
 
-    public Tournament(String name) {
-        this.name = name;
-        this.started = true;
-        this.finished = false;
-        this.createdAt = LocalDateTime.now();
-        this.teams = new ArrayList<>();
-        // starta även turneringen
-    }
+  public Tournament(String name) {
+    this.name = name;
+    this.started = true;
+    this.finished = false;
+    this.createdAt = LocalDateTime.now();
+    this.teams = new ArrayList<>();
+    // starta även turneringen
+  }
 
-    public void addTeam(Team team) {
-        this.teams.add(team);
-    }
+  public void addTeam(Team team) {
+    this.teams.add(team);
+  }
 
-    public void removeTeam(int index) {
-        this.teams.remove(index);
-    }
+  public void removeTeam(int index) {
+    this.teams.remove(index);
+  }
 
-    // --- Getters & Setters ---
-    public int getId() {
-        return id;
-    }
+  public void start() {
+    this.started = true;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    // TODO: this should start the whole tournament
+  }
 
-    public String getName() {
-        return name;
-    }
+  // --- Getters & Setters ---
+  public int getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public boolean isStarted() {
-        return started;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setStarted(boolean started) {
-        this.started = started;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public boolean isFinished() {
-        return finished;
-    }
+  public boolean isStarted() {
+    return started;
+  }
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
-    }
+  public void setStarted(boolean started) {
+    this.started = started;
+  }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+  public boolean isFinished() {
+    return finished;
+  }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+  public void setFinished(boolean finished) {
+    this.finished = finished;
+  }
 
-    public List<Team> getTeams() {
-        return teams;
-    }
+  public LocalDateTime getCreatedAt() {
+    return createdAt;
+  }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
+  public void setCreatedAt(LocalDateTime createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public List<Team> getTeams() {
+    return teams;
+  }
+
+  public void setTeams(List<Team> teams) {
+    this.teams = teams;
+  }
 }
