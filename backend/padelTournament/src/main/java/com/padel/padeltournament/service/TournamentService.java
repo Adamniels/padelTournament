@@ -50,6 +50,14 @@ public class TournamentService {
     return this.activeTournament.getTeams();
   }
 
+  public List<Team> getStandingTournament() {
+    if (this.activeTournament == null) {
+      throw new Error("no tournament is active");
+    }
+    return this.activeTournament.getStandings();
+
+  }
+
   public void startTournament(String name) {
     if (this.activeTournament == null) {
       throw new Error("no tournament is active");
@@ -57,7 +65,9 @@ public class TournamentService {
     this.activeTournament.setName(name);
 
     // Start Tournament
+    // TODO: test!
     this.activeTournament.start();
+    System.out.println(this.activeTournament.getNextMatches(2));
 
     System.out.println(
         "Tournament created with name: " + name + " and with members:" +

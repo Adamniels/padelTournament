@@ -64,4 +64,15 @@ public class TournamentController {
   public List<Team> getTeams() {
     return service.getTeamsTournament();
   }
+
+  /**
+   * Get all the teams currently in the tournament
+   * 
+   * @return a list of all the teams
+   */
+  @GetMapping("/get-standing")
+  public List<Team> getStanding() {
+    return service.getStandingTournament();
+  }
+
 }
