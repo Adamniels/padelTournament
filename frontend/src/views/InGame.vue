@@ -10,21 +10,27 @@
 
       <div class="section">
         <h2 class="subheading">Current matches</h2>
-        <ul class="list">
-          <!--  TODO : make dynamic, should be a list -->
-          <li>Team 1 vs Team 2</li>
-          <li>Team 3 vs Team 4</li>
-        </ul>
+        <div v-if="matches.length > 0">
+          <ul class="list">
+            <li v-for="(match, index) in matches" :key="index">
+              {{ match.team1.name }} vs {{ match.team2.name }}
+            </li>
+          </ul>
+        </div>
+        <div v-else>
+          <p v-if="firstRoundPlayed">Tournament over</p>
+          <p v-else>Press play round to start</p>
+        </div>
       </div>
 
       <div class="section scoreboard">
         <h2 class="subheading">Scoreboard</h2>
         <ol class="list">
           <!--  TODO : make dynamic, should be a list -->
-          <li>Team 1 <span class="points">10p</span></li>
-          <li>Team 2 <span class="points">7p</span></li>
-          <li>Team 3 <span class="points">3p</span></li>
-          <li>Team 4 <span class="points">0p</span></li>
+          <li>Todo 1 <span class="points">0p</span></li>
+          <li>Todo 2 <span class="points">0p</span></li>
+          <li>Todo 3 <span class="points">0p</span></li>
+          <li>Todo 4 <span class="points">0p</span></li>
         </ol>
       </div>
     </div>
@@ -34,10 +40,23 @@
 
 <script setup lang="ts">
 // TODO: onMounted and every change should retrieve a status structs that is neccessery for displaying data
+import { ref } from 'vue'
+import type { Match } from "@/models/types"; // använd rätt path beroende på var din ts-fil ligger
 
-const playRound = () => {
-  console.log("playing new round")
+let firstRoundPlayed = false;
+const matches = ref<Match[]>([]);
+
+const playRound = async () => {
+  firstRoundPlayed = true;
+  const res = await fetch("http://localhost:8080/api/tournaments/get-nextmatches");
+  if (!res.ok) {
+    console.error("Något gick fel vid hämtning");
+    return;
+  }
+  matches.value = await res.json();
+
 }
+
 
 const updateRound = () => {
   console.log("updating round")

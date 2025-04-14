@@ -3,6 +3,7 @@ package com.padel.padeltournament.controller;
 import com.padel.padeltournament.model.Tournament;
 import com.padel.padeltournament.model.Team;
 import com.padel.padeltournament.service.TournamentService;
+import com.padel.padeltournament.model.Match;
 
 import java.util.List;
 
@@ -73,6 +74,12 @@ public class TournamentController {
   @GetMapping("/get-standing")
   public List<Team> getStanding() {
     return service.getStandingTournament();
+  }
+
+  @GetMapping("get-nextmatches")
+  public List<Match> getNextMathes() {
+    System.out.println("Asked for nextmatches");
+    return service.getNextMatches();
   }
 
 }

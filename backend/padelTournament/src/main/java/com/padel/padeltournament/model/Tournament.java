@@ -52,9 +52,9 @@ public class Tournament {
     this.started = true;
     this.standings = new ArrayList<>(this.teams);
 
-    for (int i = 0; i < teams.size(); i += 2) {
-      if (i + 1 < teams.size()) {
-        matches.add(new Match(teams.get(i), teams.get(i + 1)));
+    for (int i = 0; i < teams.size(); i++) {
+      for (int j = i + 1; j < teams.size(); j++) {
+        matches.add(new Match(teams.get(i), teams.get(j)));
       }
     }
 

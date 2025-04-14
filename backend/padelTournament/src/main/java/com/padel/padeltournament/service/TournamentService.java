@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.padel.padeltournament.model.Tournament;
 import com.padel.padeltournament.model.Team;
+import com.padel.padeltournament.model.Match;
 
 @Service
 public class TournamentService {
@@ -67,11 +68,16 @@ public class TournamentService {
     // Start Tournament
     // TODO: test!
     this.activeTournament.start();
-    System.out.println(this.activeTournament.getNextMatches(2));
+    // System.out.println(this.activeTournament.getNextMatches(2));
 
     System.out.println(
         "Tournament created with name: " + name + " and with members:" +
             this.activeTournament.getTeams());
+  }
+
+  public List<Match> getNextMatches() {
+    // TODO: hard code courts to 2 change later
+    return this.activeTournament.getNextMatches(2);
   }
 
 }
