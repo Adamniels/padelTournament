@@ -23,16 +23,8 @@
         </div>
       </div>
 
-      <div class="section scoreboard">
-        <h2 class="subheading">Scoreboard</h2>
-        <ol class="list">
-          <!--  TODO : make dynamic, should be a list -->
-          <li>Todo 1 <span class="points">0p</span></li>
-          <li>Todo 2 <span class="points">0p</span></li>
-          <li>Todo 3 <span class="points">0p</span></li>
-          <li>Todo 4 <span class="points">0p</span></li>
-        </ol>
-      </div>
+      <Scoreboard />
+
     </div>
   </div>
 </template>
@@ -42,6 +34,8 @@
 // TODO: onMounted and every change should retrieve a status structs that is neccessery for displaying data
 import { ref } from 'vue'
 import type { Match } from "@/models/types"; // använd rätt path beroende på var din ts-fil ligger
+import Scoreboard from "../components/Scoreboard.vue";
+
 
 let firstRoundPlayed = false;
 const matches = ref<Match[]>([]);

@@ -3,7 +3,7 @@
     <h3>Teams</h3>
 
     <ul v-if="teams.length">
-      <li v-for="(team, index) in teams" :key="index">
+      <li v-for="(team, index) in teams" :key="team.id">
         {{ team.name }}
         <button @click="removeTeam(index)">X</button>
       </li>
@@ -13,10 +13,16 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from "vue";
 
-const teams = ref([]);
+interface Team {
+  id: number;
+  name: string;
+  score: number;
+}
+
+const teams = ref<Team[]>([]);
 
 const fetchTeams = async () => {
   try {
@@ -31,7 +37,7 @@ const fetchTeams = async () => {
   }
 };
 
-const removeTeam = async (index) => {
+const removeTeam = async (index: number) => {
   const res = await fetch("http://localhost:8080/api/tournaments/remove-team", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -47,7 +53,6 @@ const removeTeam = async (index) => {
 
 onMounted(fetchTeams);
 
-// Exportera funktionen så andra komponenter (t.ex. RegisterTeamForm) kan anropa den
 defineExpose({ fetchTeams });
 </script>
 

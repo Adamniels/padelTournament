@@ -50,7 +50,7 @@ public class TournamentController {
     service.addTeamTournament(team);
   }
 
-  @PostMapping("remove-team")
+  @PostMapping("/remove-team")
   public void removeTeam(@RequestBody int index) {
     System.out.println("index: " + index + " should be removed acoording to frontend");
     service.removeTeamTournament(index);
@@ -76,7 +76,7 @@ public class TournamentController {
     return service.getStandingTournament();
   }
 
-  @GetMapping("get-nextmatches")
+  @GetMapping("/get-nextmatches")
   public List<Match> getNextMathes() {
     System.out.println("Asked for nextmatches");
     return service.getNextMatches();
