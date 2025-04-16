@@ -24,45 +24,74 @@
       </div>
 
       <Scoreboard ref="scoreboardRef" />
-
     </div>
+
+    <!-- En match i taget visas för uppdatering -->
+    <UpdateMatchForm v-if="showUpdateForm && currentIndex < matches.length" :match="matches[currentIndex]"
+      @save="handleSave" />
   </div>
 </template>
 
-
 <script setup lang="ts">
-// TODO: onMounted and every change should retrieve a status structs that is neccessery for displaying data
-// scoreboard handles this but need to do a similiar solution like teamlist so it updates after every update
-
 import { ref } from 'vue'
-import type { Match } from "@/models/types"; // använd rätt path beroende på var din ts-fil ligger
-import Scoreboard from "../components/Scoreboard.vue";
+import type { Match } from "@/models/types"
+import Scoreboard from "../components/Scoreboard.vue"
+import UpdateMatchForm from "../components/UpdateMatchForm.vue"
 
-const scoreboardRef = ref<InstanceType<typeof Scoreboard> | null>(null);
-
-let firstRoundPlayed = false;
-const matches = ref<Match[]>([]);
+const scoreboardRef = ref<InstanceType<typeof Scoreboard> | null>(null)
+const matches = ref<Match[]>([])
+const showUpdateForm = ref(false)
+const currentIndex = ref(0)
+const firstRoundPlayed = ref(false)
 
 const playRound = async () => {
-  firstRoundPlayed = true;
-  const res = await fetch("http://localhost:8080/api/tournaments/get-nextmatches");
+  firstRoundPlayed.value = true
+  const res = await fetch("http://localhost:8080/api/tournaments/get-nextmatches")
   if (!res.ok) {
-    console.error("Något gick fel vid hämtning");
-    return;
+    console.error("Något gick fel vid hämtning")
+    return
   }
-  matches.value = await res.json();
-
+  matches.value = await res.json()
+  console.log("matcher hämtade: ", matches.value)
 }
-
 
 const updateRound = () => {
-  console.log("updating round")
-  // TODO: should get a new component above that lets the user write the result
-  if (scoreboardRef.value) {
-    scoreboardRef.value.fetchStanding();
+  if (matches.value.length === 0) {
+    alert("Inga matcher att uppdatera")
+    return
+  }
+  currentIndex.value = 0
+  showUpdateForm.value = true
+}
+
+const handleSave = (updatedMatch: Match) => {
+  matches.value[currentIndex.value] = updatedMatch
+  currentIndex.value++
+
+  if (currentIndex.value >= matches.value.length) {
+    showUpdateForm.value = false
+    submitAllUpdates()
   }
 }
 
+const submitAllUpdates = async () => {
+  const res = await fetch("http://localhost:8080/api/tournaments/update-matches", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(matches.value)
+  })
+
+  if (!res.ok) {
+    alert("Något gick fel vid uppdatering.")
+    return
+  }
+
+  if (scoreboardRef.value) {
+    scoreboardRef.value.fetchStanding()
+  }
+}
 </script>
 
 <style scoped>
@@ -138,9 +167,5 @@ const updateRound = () => {
   border-radius: 6px;
   display: flex;
   justify-content: space-between;
-}
-
-.points {
-  font-weight: bold;
 }
 </style>

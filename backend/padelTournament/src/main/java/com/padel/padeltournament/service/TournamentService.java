@@ -80,4 +80,8 @@ public class TournamentService {
     return this.activeTournament.getNextMatches(2);
   }
 
+  public void updateMatchesTournament(List<Match> matches) {
+    this.activeTournament.updateMatches(matches);
+  }
+
 }

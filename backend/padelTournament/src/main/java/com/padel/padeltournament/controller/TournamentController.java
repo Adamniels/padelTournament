@@ -82,4 +82,11 @@ public class TournamentController {
     return service.getNextMatches();
   }
 
+  @PostMapping("/update-matches")
+  public void updateMatches(@RequestBody List<Match> matches) {
+    // TODO: här är jag
+    System.out.println("sent posting for update matches");
+    service.updateMatchesTournament(matches);
+  }
+
 }
