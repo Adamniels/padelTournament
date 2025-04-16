@@ -29,18 +29,28 @@ public class Match {
   }
 
   public int getScore() {
-    return team1score - team2score;
+    return Math.abs(team1score - team2score);
   }
 
-  // TODO: kanske göra om den så att den returnerar ett team och en bool
-  public String getWinner() {
+  public Team getWinner() {
     int res = team1score - team2score;
     if (res > 0) {
-      return "team1";
+      return team1;
     } else if (res == 0) {
-      return "draw";
+      return team2;
     } else {
-      return "team2";
+      return null;
+    }
+  }
+
+  public Team getLoser() {
+    int res = team1score - team2score;
+    if (res > 0) {
+      return team2;
+    } else if (res == 0) {
+      return team1;
+    } else {
+      return null;
     }
   }
 

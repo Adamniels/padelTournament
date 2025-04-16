@@ -4,6 +4,8 @@ public class Team {
   private Long id;
   private String name;
   private int score;
+  private int wonMatches;
+  private int playedMatches;
 
   // Need a empty constructor to, for the JSON mapping (in the future)
   public Team() {
@@ -13,6 +15,24 @@ public class Team {
     this.id = id;
     this.name = name;
     this.score = 0;
+    this.wonMatches = 0;
+    this.playedMatches = 0;
+  }
+
+  public void addWonMatch() {
+    this.wonMatches++;
+  }
+
+  public void addPlayedMatch() {
+    this.playedMatches++;
+  }
+
+  public void addScore(int score) {
+    this.score += score;
+  }
+
+  public void subtractScore(int score) {
+    this.score -= score;
   }
 
   // Getters & Setters
@@ -38,6 +58,22 @@ public class Team {
 
   public int getScore() {
     return this.score;
+  }
+
+  public void setWonMatches(int wonMatches) {
+    this.wonMatches = wonMatches;
+  }
+
+  public int getWonMatches() {
+    return this.wonMatches;
+  }
+
+  public void setPlayedMatches(int playedMatches) {
+    this.playedMatches = playedMatches;
+  }
+
+  public int getPlayedMatches() {
+    return this.playedMatches;
   }
 
   // TODO: overide so they are compared and sorted by their score

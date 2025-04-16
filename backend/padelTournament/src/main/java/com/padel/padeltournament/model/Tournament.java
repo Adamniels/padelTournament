@@ -3,13 +3,10 @@ package com.padel.padeltournament.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.padel.padeltournament.model.Match;
+import java.util.Iterator;
 
 public class Tournament {
   private Integer id; // kan vara null tills man sparar
@@ -18,8 +15,6 @@ public class Tournament {
   private boolean finished = false;
   private LocalDateTime createdAt;
   private List<Team> teams;
-  private Map<Team, Integer> matchCount;
-  private List<Team> standings;
   private List<Match> matches;
   private List<Match> playedMatches;
 
@@ -36,8 +31,6 @@ public class Tournament {
     this.teams = new ArrayList<>();
     this.matches = new ArrayList<>();
     this.playedMatches = new ArrayList<>();
-    this.matchCount = new HashMap<>();
-
   }
 
   public void addTeam(Team team) {
@@ -50,17 +43,11 @@ public class Tournament {
 
   public void start() {
     this.started = true;
-    this.standings = new ArrayList<>(this.teams);
 
     for (int i = 0; i < teams.size(); i++) {
       for (int j = i + 1; j < teams.size(); j++) {
         matches.add(new Match(teams.get(i), teams.get(j)));
       }
-    }
-
-    // intitiate matchCount
-    for (Team team : teams) {
-      matchCount.put(team, 0);
     }
   }
 
@@ -70,19 +57,21 @@ public class Tournament {
    * return a list och all the matches, if there isn't enough matches then it will
    * return less
    */
+
   public List<Match> getNextMatches(int courts) {
     List<Match> nextMatches = new ArrayList<>();
     Set<Team> teamsInPlay = new HashSet<>();
 
-    // Sortera matcherna så att de med minst spelade matcher först prioriteras
+    // Sort matches based on least played
     List<Match> sorted = new ArrayList<>(matches);
     sorted.sort(Comparator.comparingInt(
-        m -> matchCount.get(m.getTeam1()) + matchCount.get(m.getTeam2())));
+        m -> m.getTeam1().getPlayedMatches() + m.getTeam2().getPlayedMatches()));
 
-    for (Match match : sorted) {
+    for (Iterator<Match> iterator = sorted.iterator(); iterator.hasNext();) {
       if (nextMatches.size() >= courts)
         break;
 
+      Match match = iterator.next();
       Team t1 = match.getTeam1();
       Team t2 = match.getTeam2();
 
@@ -95,8 +84,8 @@ public class Tournament {
 
       matches.remove(match);
 
-      matchCount.put(t1, matchCount.get(t1) + 1);
-      matchCount.put(t2, matchCount.get(t2) + 1);
+      t1.addPlayedMatch();
+      t2.addPlayedMatch();
     }
 
     return nextMatches;
@@ -107,11 +96,21 @@ public class Tournament {
    * and update the scoreboard
    */
   public void updateMatches(List<Match> matches) {
-    // TODO:
-    throw new Error("TODO: Not implemented");
+    for (Match match : matches) {
+      Team winner = match.getWinner();
+      Team loser = match.getLoser();
+      int score = match.getScore();
+      if (winner == null) {
+        this.playedMatches.add(match);
+        continue;
+      }
 
-    // update the the teams score
-    // add the match to played matches
+      winner.addScore(score);
+      winner.addWonMatch();
+
+      loser.subtractScore(score);
+      this.playedMatches.add(match);
+    }
   }
 
   // --- Getters & Setters ---
@@ -164,7 +163,11 @@ public class Tournament {
   }
 
   public List<Team> getStandings() {
-    return standings;
+    List<Team> sorted = new ArrayList<>(teams);
+    sorted.sort(Comparator
+        .comparingInt(Team::getWonMatches).reversed()
+        .thenComparingInt(Team::getScore).reversed());
+    return sorted;
   }
 
 }

@@ -3,8 +3,16 @@
     <h3>Scoreboard</h3>
 
     <ul v-if="scoreboard.length">
+      <li class="header">
+        <span>Team</span>
+        <span>Played</span>
+        <span>Won</span>
+        <span>Score</span>
+      </li>
       <li v-for="(team, index) in scoreboard" :key="team.id">
         <span>{{ team.name }}</span>
+        <span>{{ team.playedMatches }}</span>
+        <span>{{ team.wonMatches }}</span>
         <span class="points">{{ team.score }}</span>
       </li>
     </ul>
@@ -20,6 +28,8 @@ interface Team {
   id: number;
   name: string;
   score: number;
+  wonMatches: number;
+  playedMatches: number;
 }
 
 const scoreboard = ref<Team[]>([]);
@@ -72,6 +82,16 @@ li {
   align-items: center;
   font-size: 1rem;
   font-weight: 500;
+}
+
+li.header {
+  background-color: #d6e9dc;
+  font-weight: bold;
+}
+
+li span {
+  width: 25%;
+  text-align: center;
 }
 
 .points {

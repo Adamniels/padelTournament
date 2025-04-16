@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <Scoreboard />
+      <Scoreboard ref="scoreboardRef" />
 
     </div>
   </div>
@@ -32,10 +32,13 @@
 
 <script setup lang="ts">
 // TODO: onMounted and every change should retrieve a status structs that is neccessery for displaying data
+// scoreboard handles this but need to do a similiar solution like teamlist so it updates after every update
+
 import { ref } from 'vue'
 import type { Match } from "@/models/types"; // använd rätt path beroende på var din ts-fil ligger
 import Scoreboard from "../components/Scoreboard.vue";
 
+const scoreboardRef = ref<InstanceType<typeof Scoreboard> | null>(null);
 
 let firstRoundPlayed = false;
 const matches = ref<Match[]>([]);
@@ -55,6 +58,9 @@ const playRound = async () => {
 const updateRound = () => {
   console.log("updating round")
   // TODO: should get a new component above that lets the user write the result
+  if (scoreboardRef.value) {
+    scoreboardRef.value.fetchStanding();
+  }
 }
 
 </script>
