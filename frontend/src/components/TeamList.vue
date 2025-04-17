@@ -15,12 +15,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import type { Team } from "@/models/types"
 
-interface Team {
-  id: number;
-  name: string;
-  score: number;
-}
 
 const teams = ref<Team[]>([]);
 

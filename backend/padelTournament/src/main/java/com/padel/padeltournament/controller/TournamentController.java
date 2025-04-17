@@ -73,6 +73,7 @@ public class TournamentController {
    */
   @GetMapping("/get-standing")
   public List<Team> getStanding() {
+    System.out.println("asked for standing");
     return service.getStandingTournament();
   }
 
@@ -84,8 +85,9 @@ public class TournamentController {
 
   @PostMapping("/update-matches")
   public void updateMatches(@RequestBody List<Match> matches) {
-    // TODO: här är jag
-    System.out.println("sent posting for update matches");
+    matches.forEach(m -> System.out.println(
+        m.getTeam1().getName() + " [" + m.getTeam1score() + "] vs " +
+            m.getTeam2().getName() + " [" + m.getTeam2score() + "]"));
     service.updateMatchesTournament(matches);
   }
 

@@ -23,14 +23,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-
-interface Team {
-  id: number;
-  name: string;
-  score: number;
-  wonMatches: number;
-  playedMatches: number;
-}
+import type { Team } from "@/models/types"
 
 const scoreboard = ref<Team[]>([]);
 

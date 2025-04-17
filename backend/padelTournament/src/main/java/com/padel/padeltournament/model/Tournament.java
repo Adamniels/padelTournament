@@ -101,16 +101,29 @@ public class Tournament {
       Team loser = match.getLoser();
       int score = match.getScore();
       if (winner == null) {
+        System.out.println("fanns ingen vinnare så lika");
         this.playedMatches.add(match);
         continue;
       }
 
-      winner.addScore(score);
-      winner.addWonMatch();
+      Team actualWinner = findTeamByName(winner.getName());
+      Team actualLoser = findTeamByName(loser.getName());
 
-      loser.subtractScore(score);
+      actualWinner.addScore(score);
+      actualWinner.addWonMatch();
+
+      actualLoser.subtractScore(score);
       this.playedMatches.add(match);
     }
+  }
+
+  private Team findTeamByName(String name) {
+    for (Team t : this.teams) {
+      if (t.getName().equals(name)) {
+        return t;
+      }
+    }
+    return null;
   }
 
   // --- Getters & Setters ---

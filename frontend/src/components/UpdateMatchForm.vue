@@ -38,8 +38,9 @@ watch(() => props.match, (newMatch) => {
 const submit = () => {
   const updatedMatch = {
     ...props.match,
-    scoreA: scoreA.value,
-    scoreB: scoreB.value
+    team1score: scoreA.value,
+    team2score: scoreB.value,
+    isPlayed: true
   }
 
   emit('save', updatedMatch)

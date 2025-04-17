@@ -36,7 +36,7 @@ public class Match {
     int res = team1score - team2score;
     if (res > 0) {
       return team1;
-    } else if (res == 0) {
+    } else if (res < 0) {
       return team2;
     } else {
       return null;
@@ -47,7 +47,7 @@ public class Match {
     int res = team1score - team2score;
     if (res > 0) {
       return team2;
-    } else if (res == 0) {
+    } else if (res < 0) {
       return team1;
     } else {
       return null;
@@ -71,19 +71,19 @@ public class Match {
     this.team2 = team2;
   }
 
-  public int getTeam1Score() {
+  public int getTeam1score() {
     return team1score;
   }
 
-  public void setTeam1Score(int team1score) {
+  public void setTeam1score(int team1score) {
     this.team1score = team1score;
   }
 
-  public int getTeam2Score() {
+  public int getTeam2score() {
     return team2score;
   }
 
-  public void setTeam2Score(int team2Score) {
+  public void setTeam2score(int team2Score) {
     this.team2score = team2Score;
   }
 

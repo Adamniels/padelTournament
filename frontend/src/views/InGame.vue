@@ -82,6 +82,7 @@ const submitAllUpdates = async () => {
     },
     body: JSON.stringify(matches.value)
   })
+  console.log("matcher skickade: ", matches.value)
 
   if (!res.ok) {
     alert("Något gick fel vid uppdatering.")
