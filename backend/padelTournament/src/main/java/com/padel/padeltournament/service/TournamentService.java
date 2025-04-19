@@ -84,4 +84,8 @@ public class TournamentService {
     this.activeTournament.updateMatches(matches);
   }
 
+  public String getTournamentName() {
+    return this.activeTournament.getName();
+  }
+
 }

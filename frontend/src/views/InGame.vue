@@ -1,11 +1,16 @@
 <template>
   <div class="view-wrapper">
     <div class="card">
-      <h1 class="heading">Namn på turnering</h1>
+      <h1 class="heading">{{ tournamentName }}</h1>
 
       <div class="button-row">
-        <button class="action-button" @click="playRound">Play round</button>
-        <button class="action-button" @click="updateRound">Update round</button>
+        <button class="action-button" @click="playRound" :disabled="isPlayingRound">
+          Play round
+        </button>
+
+        <button class="action-button" @click="updateRound" :disabled="!isPlayingRound">
+          Update round
+        </button>
       </div>
 
       <div class="section">
@@ -33,19 +38,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import type { Match } from "@/models/types"
 import Scoreboard from "../components/Scoreboard.vue"
 import UpdateMatchForm from "../components/UpdateMatchForm.vue"
+
+const tournamentName = ref("Padel Tournament");
+
+const fetchTournamentName = async () => {
+  try {
+    const res = await fetch("http://localhost:8080/api/tournaments/get-name");
+    if (res.ok) {
+      tournamentName.value = await res.text();
+    }
+  } catch (err) {
+    console.error("Failed to fetch tournament name", err);
+  }
+};
+
+onMounted(fetchTournamentName);
 
 const scoreboardRef = ref<InstanceType<typeof Scoreboard> | null>(null)
 const matches = ref<Match[]>([])
 const showUpdateForm = ref(false)
 const currentIndex = ref(0)
 const firstRoundPlayed = ref(false)
+const isPlayingRound = ref(false)
 
 const playRound = async () => {
-  firstRoundPlayed.value = true
+  if (isPlayingRound.value) return;
+
+  firstRoundPlayed.value = true;
+  isPlayingRound.value = true;
+
   const res = await fetch("http://localhost:8080/api/tournaments/get-nextmatches")
   if (!res.ok) {
     console.error("Något gick fel vid hämtning")
@@ -56,6 +81,10 @@ const playRound = async () => {
 }
 
 const updateRound = () => {
+  if (!isPlayingRound.value) return;
+
+  isPlayingRound.value = false;
+
   if (matches.value.length === 0) {
     alert("Inga matcher att uppdatera")
     return
@@ -148,6 +177,12 @@ const submitAllUpdates = async () => {
 
 .action-button:hover {
   background-color: #27ae60;
+}
+
+.action-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .section {

@@ -91,4 +91,9 @@ public class TournamentController {
     service.updateMatchesTournament(matches);
   }
 
+  @GetMapping("/get-name")
+  public String getTournamentName() {
+    return service.getTournamentName();
+  }
+
 }

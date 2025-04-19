@@ -136,6 +136,7 @@ public class Tournament {
   }
 
   public String getName() {
+    System.out.println("namn: " + name);
     return name;
   }
 
@@ -177,9 +178,14 @@ public class Tournament {
 
   public List<Team> getStandings() {
     List<Team> sorted = new ArrayList<>(teams);
-    sorted.sort(Comparator
-        .comparingInt(Team::getWonMatches).reversed()
-        .thenComparingInt(Team::getScore).reversed());
+    sorted.sort(
+        Comparator
+            .comparingInt(Team::getWonMatches).reversed()
+            .thenComparing(Comparator.comparingInt(Team::getScore).reversed()));
+    for (Team team : sorted) {
+      System.out
+          .println("sent order: " + team.getName() + " won: " + team.getWonMatches() + " score: " + team.getScore());
+    }
     return sorted;
   }
 
