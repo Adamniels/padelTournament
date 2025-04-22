@@ -26,7 +26,7 @@ const submitTeam = async () => {
   });
 
   if (response.ok) {
-    alert("Lag registrerat!");
+    console.log("Lag registrerat!");
     teamName.value = "";
     emit("team-added");
   } else {

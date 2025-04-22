@@ -18,7 +18,7 @@ public class Tournament {
   private String name;
   private boolean started = false;
   private boolean finished = false;
-  private LocalDateTime createdAt;
+  private String createdAt;
   @Convert(converter = TeamListConverter.class)
   @Column(columnDefinition = "CLOB")
   private List<Team> teams;
@@ -31,6 +31,10 @@ public class Tournament {
   @Column(columnDefinition = "CLOB")
   private List<Match> playedMatches;
 
+  @Convert(converter = MatchListConverter.class)
+  @Column(columnDefinition = "CLOB")
+  private List<Match> currentMatches = new ArrayList<>();
+
   // --- Constructor ---
 
   public Tournament() {
@@ -40,7 +44,7 @@ public class Tournament {
     this.name = name;
     this.started = true;
     this.finished = false;
-    this.createdAt = LocalDateTime.now();
+    this.createdAt = LocalDateTime.now().toString();
     this.teams = new ArrayList<>();
     this.matches = new ArrayList<>();
     this.playedMatches = new ArrayList<>();
@@ -72,6 +76,9 @@ public class Tournament {
    */
 
   public List<Match> getNextMatches(int courts) {
+    if (currentMatches != null && !currentMatches.isEmpty()) {
+      return currentMatches;
+    }
     List<Match> nextMatches = new ArrayList<>();
     Set<Team> teamsInPlay = new HashSet<>();
 
@@ -94,13 +101,9 @@ public class Tournament {
       nextMatches.add(match);
       teamsInPlay.add(t1);
       teamsInPlay.add(t2);
-
       matches.remove(match);
-
-      t1.addPlayedMatch();
-      t2.addPlayedMatch();
     }
-
+    currentMatches = nextMatches;
     return nextMatches;
   }
 
@@ -127,7 +130,12 @@ public class Tournament {
 
       actualLoser.subtractScore(score);
       this.playedMatches.add(match);
+      match.setPlayed(true);
+
+      actualWinner.addPlayedMatch();
+      actualLoser.addPlayedMatch();
     }
+    currentMatches.clear();
   }
 
   private Team findTeamByName(String name) {
@@ -173,11 +181,11 @@ public class Tournament {
     this.finished = finished;
   }
 
-  public LocalDateTime getCreatedAt() {
+  public String getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(LocalDateTime createdAt) {
+  public void setCreatedAt(String createdAt) {
     this.createdAt = createdAt;
   }
 

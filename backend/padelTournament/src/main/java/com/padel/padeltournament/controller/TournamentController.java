@@ -45,6 +45,7 @@ public class TournamentController {
 
   @PostMapping("/save")
   public void saveTournament() {
+    System.out.println("saved tournament");
     Tournament active = service.getActiveTournament();
     dbService.saveTournament(active);
     System.out.println("Turnering sparad till databasen!");
@@ -56,6 +57,11 @@ public class TournamentController {
     service.setActiveTournament(loaded);
     System.out.println("Turnering laddad från DB och satt som aktiv.");
     return loaded;
+  }
+
+  @GetMapping("/all")
+  public List<Tournament> getAllTournaments() {
+    return dbService.getAllTournaments();
   }
 
   /**

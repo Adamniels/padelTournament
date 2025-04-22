@@ -24,7 +24,8 @@ const routes = [
     path: "/ingame",
     name: "ingame",
     component: InGame,
-  },];
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),

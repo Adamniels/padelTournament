@@ -35,6 +35,9 @@
     <UpdateMatchForm v-if="showUpdateForm && currentIndex < matches.length" :match="matches[currentIndex]"
       @save="handleSave" />
   </div>
+
+  <button @click="saveAndExit">Save and exit</button>
+
 </template>
 
 <script setup lang="ts">
@@ -42,6 +45,9 @@ import { ref, onMounted } from 'vue'
 import type { Match } from "@/models/types"
 import Scoreboard from "../components/Scoreboard.vue"
 import UpdateMatchForm from "../components/UpdateMatchForm.vue"
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const tournamentName = ref("Padel Tournament");
 
@@ -92,6 +98,21 @@ const updateRound = () => {
   currentIndex.value = 0
   showUpdateForm.value = true
 }
+
+const saveAndExit = async () => {
+  try {
+    await fetch('http://localhost:8080/api/tournaments/save', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    // Navigera till startsidan
+    router.push('/');
+  } catch (error) {
+    console.error('Misslyckades spara turnering:', error);
+  }
+};
 
 const handleSave = (updatedMatch: Match) => {
   matches.value[currentIndex.value] = updatedMatch

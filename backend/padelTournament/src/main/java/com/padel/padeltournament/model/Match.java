@@ -1,5 +1,7 @@
 package com.padel.padeltournament.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Match {
   private Team team1;
   private Team team2;
@@ -28,10 +30,12 @@ public class Match {
     this.isPlayed = true;
   }
 
+  @JsonIgnore
   public int getScore() {
     return Math.abs(team1score - team2score);
   }
 
+  @JsonIgnore
   public Team getWinner() {
     int res = team1score - team2score;
     if (res > 0) {
@@ -43,6 +47,7 @@ public class Match {
     }
   }
 
+  @JsonIgnore
   public Team getLoser() {
     int res = team1score - team2score;
     if (res > 0) {
