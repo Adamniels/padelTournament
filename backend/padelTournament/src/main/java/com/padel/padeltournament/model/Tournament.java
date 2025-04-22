@@ -7,15 +7,28 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Iterator;
+import jakarta.persistence.*;
 
+@Entity
 public class Tournament {
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id; // kan vara null tills man sparar
+
   private String name;
   private boolean started = false;
   private boolean finished = false;
   private LocalDateTime createdAt;
+  @Convert(converter = TeamListConverter.class)
+  @Column(columnDefinition = "CLOB")
   private List<Team> teams;
+
+  @Convert(converter = MatchListConverter.class)
+  @Column(columnDefinition = "CLOB")
   private List<Match> matches;
+
+  @Convert(converter = MatchListConverter.class)
+  @Column(columnDefinition = "CLOB")
   private List<Match> playedMatches;
 
   // --- Constructor ---

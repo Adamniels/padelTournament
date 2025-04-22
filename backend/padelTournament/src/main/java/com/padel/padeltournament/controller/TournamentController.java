@@ -2,8 +2,8 @@ package com.padel.padeltournament.controller;
 
 import com.padel.padeltournament.model.Tournament;
 import com.padel.padeltournament.model.Team;
-import com.padel.padeltournament.service.TournamentService;
-import com.padel.padeltournament.dto.TournamentNameDTO;
+import com.padel.padeltournament.service.*;
+import com.padel.padeltournament.dto.*;
 import com.padel.padeltournament.model.Match;
 
 import java.util.List;
@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 public class TournamentController {
 
   private final TournamentService service;
+  private final TournamentDBService dbService;
 
-  public TournamentController(TournamentService service) {
+  public TournamentController(TournamentService service, TournamentDBService dbService) {
     this.service = service;
+    this.dbService = dbService;
   }
 
   /**
@@ -39,6 +41,21 @@ public class TournamentController {
   @PostMapping("/start")
   public void startTournament(@RequestBody TournamentNameDTO dto) {
     service.startTournament(dto.getName());
+  }
+
+  @PostMapping("/save")
+  public void saveTournament() {
+    Tournament active = service.getActiveTournament();
+    dbService.saveTournament(active);
+    System.out.println("Turnering sparad till databasen!");
+  }
+
+  @PostMapping("/load")
+  public Tournament loadTournament(@RequestBody TournamentIdDTO dto) {
+    Tournament loaded = dbService.getTournament(dto.getId());
+    service.setActiveTournament(loaded);
+    System.out.println("Turnering laddad från DB och satt som aktiv.");
+    return loaded;
   }
 
   /**
