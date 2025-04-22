@@ -37,7 +37,7 @@ const startTournament = async () => {
   const res = await fetch("http://localhost:8080/api/tournaments/start", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(tournamentName.value),
+    body: JSON.stringify({ name: tournamentName.value })
   });
 
   if (res.ok) {

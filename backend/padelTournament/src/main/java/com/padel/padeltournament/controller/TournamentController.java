@@ -3,6 +3,7 @@ package com.padel.padeltournament.controller;
 import com.padel.padeltournament.model.Tournament;
 import com.padel.padeltournament.model.Team;
 import com.padel.padeltournament.service.TournamentService;
+import com.padel.padeltournament.dto.TournamentNameDTO;
 import com.padel.padeltournament.model.Match;
 
 import java.util.List;
@@ -36,8 +37,8 @@ public class TournamentController {
    * @param name of tournament
    */
   @PostMapping("/start")
-  public void startTournament(@RequestBody String name) {
-    service.startTournament(name);
+  public void startTournament(@RequestBody TournamentNameDTO dto) {
+    service.startTournament(dto.getName());
   }
 
   /**
