@@ -43,6 +43,9 @@ public class TournamentController {
     service.startTournament(dto.getName());
   }
 
+  /**
+   * Save the currently active tournament to the database
+   */
   @PostMapping("/save")
   public void saveTournament() {
     System.out.println("saved tournament");
@@ -51,6 +54,11 @@ public class TournamentController {
     System.out.println("Turnering sparad till databasen!");
   }
 
+  /**
+   * Load a tournament from the database and set it as active
+   *
+   * @param dto with the id of the tournament to load
+   */
   @PostMapping("/load")
   public Tournament loadTournament(@RequestBody TournamentIdDTO dto) {
     Tournament loaded = dbService.getTournament(dto.getId());
@@ -59,6 +67,11 @@ public class TournamentController {
     return loaded;
   }
 
+  /**
+   * Get all tournaments from the database
+   *
+   * @return a list of all tournaments
+   */
   @GetMapping("/all")
   public List<Tournament> getAllTournaments() {
     return dbService.getAllTournaments();
@@ -74,6 +87,11 @@ public class TournamentController {
     service.addTeamTournament(team);
   }
 
+  /**
+   * Remove a team from the currently active tournament
+   * 
+   * @param index of the team to remove
+   */
   @PostMapping("/remove-team")
   public void removeTeam(@RequestBody int index) {
     System.out.println("index: " + index + " should be removed acoording to frontend");
@@ -101,12 +119,20 @@ public class TournamentController {
     return service.getStandingTournament();
   }
 
+  /**
+   * Get the matches to be played next round
+   *
+   * @return a list of all the matches
+   */
   @GetMapping("/get-nextmatches")
   public List<Match> getNextMathes() {
     System.out.println("Asked for nextmatches");
     return service.getNextMatches();
   }
 
+  /**
+   * Update this rounds matches with the scores from the frontend
+   */
   @PostMapping("/update-matches")
   public void updateMatches(@RequestBody List<Match> matches) {
     matches.forEach(m -> System.out.println(
@@ -115,6 +141,11 @@ public class TournamentController {
     service.updateMatchesTournament(matches);
   }
 
+  /**
+   * Get the name of the currently active tournament
+   *
+   * @return the name of the tournament
+   */
   @GetMapping("/get-name")
   public String getTournamentName() {
     return service.getTournamentName();

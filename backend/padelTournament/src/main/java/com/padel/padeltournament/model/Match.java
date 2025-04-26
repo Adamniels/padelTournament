@@ -18,7 +18,7 @@ public class Match {
     this.isPlayed = false;
   }
 
-  // used for creating a finnished game
+  // used for creating a finnished game that we got from the frontend
   public Match(Team team1, Team team2, int team1score, int team2score) {
     if (team1score < 0 || team2score < 0) {
       throw new Error("score can't be nagative");
@@ -30,6 +30,7 @@ public class Match {
     this.isPlayed = true;
   }
 
+  // So database don't mistakanly think think are getters and setters
   @JsonIgnore
   public int getScore() {
     return Math.abs(team1score - team2score);

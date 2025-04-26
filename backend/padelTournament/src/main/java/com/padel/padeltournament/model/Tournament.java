@@ -13,7 +13,7 @@ import jakarta.persistence.*;
 public class Tournament {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id; // kan vara null tills man sparar
+  private Integer id;
 
   private String name;
   private boolean started = false;
@@ -58,6 +58,14 @@ public class Tournament {
     this.teams.remove(index);
   }
 
+  /**
+   * Starts the tournament by generating all possible matches between teams.
+   * 
+   * For each unique pair of teams, a new Match is created and added to the list
+   * of matches.
+   *
+   * Sets the tournament's "started" flag to true.
+   */
   public void start() {
     this.started = true;
 
@@ -69,12 +77,22 @@ public class Tournament {
   }
 
   /**
-   * Gets the next matches to be played based on the number of courts.
+   * Retrieves the next matches that should be played, based on the available
+   * number of courts.
    *
-   * return a list och all the matches, if there isn't enough matches then it will
-   * return less
+   * If there are already active matches (currentMatches), those are returned
+   * directly.
+   * Otherwise:
+   * - Selects new matches where no team is scheduled to play twice.
+   * - Prioritizes matches where teams have played the fewest games.
+   * - Selects up to the number of available courts.
+   *
+   * Updates "currentMatches" with the selected matches and removes them from the
+   * pool of unplayed matches.
+   *
+   * @param courts the number of available courts
+   * @return a list of matches to be played next
    */
-
   public List<Match> getNextMatches(int courts) {
     if (currentMatches != null && !currentMatches.isEmpty()) {
       return currentMatches;
