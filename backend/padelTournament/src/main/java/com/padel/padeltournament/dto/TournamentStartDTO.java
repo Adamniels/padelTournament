@@ -1,10 +1,11 @@
 package com.padel.padeltournament.dto;
 
 // klass för att ta emot tournament name från frontend
-public class TournamentNameDTO {
+public class TournamentStartDTO {
   private String name;
+  private int courts;
 
-  public TournamentNameDTO() {
+  public TournamentStartDTO() {
     // tom konstruktor behövs för JSON-deserialisering
   }
 
@@ -14,5 +15,13 @@ public class TournamentNameDTO {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public int getCourts() {
+    return courts;
+  }
+
+  public void setCourts(int courts) {
+    this.courts = courts;
   }
 }

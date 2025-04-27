@@ -10,6 +10,9 @@
 
     <form @submit.prevent="startTournament" class="tournament-form">
       <input v-model="tournamentName" placeholder="Turneringsnamn" required />
+
+      <input v-model.number="courts" type="number" min="1" placeholder="Antal banor" required />
+
       <button class="start-button" type="submit">Start tournament</button>
     </form>
 
@@ -26,6 +29,7 @@ import { ref } from "vue";
 const teamListRef = ref<InstanceType<typeof TeamList> | null>(null);
 const tournamentName = ref("");
 const feedback = ref("");
+const courts = ref("");
 
 const refreshTeams = () => {
   if (teamListRef.value) {
@@ -37,7 +41,7 @@ const startTournament = async () => {
   const res = await fetch("http://localhost:8080/api/tournaments/start", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name: tournamentName.value })
+    body: JSON.stringify({ name: tournamentName.value, courts: courts.value }),
   });
 
   if (res.ok) {

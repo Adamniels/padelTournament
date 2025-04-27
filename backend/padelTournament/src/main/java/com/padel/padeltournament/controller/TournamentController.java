@@ -39,8 +39,8 @@ public class TournamentController {
    * @param name of tournament
    */
   @PostMapping("/start")
-  public void startTournament(@RequestBody TournamentNameDTO dto) {
-    service.startTournament(dto.getName());
+  public void startTournament(@RequestBody TournamentStartDTO dto) {
+    service.startTournament(dto.getName(), dto.getCourts());
   }
 
   /**

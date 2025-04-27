@@ -18,6 +18,7 @@ public class Tournament {
   private String name;
   private boolean started = false;
   private boolean finished = false;
+  private int courts;
   private String createdAt;
   @Convert(converter = TeamListConverter.class)
   @Column(columnDefinition = "CLOB")
@@ -93,7 +94,7 @@ public class Tournament {
    * @param courts the number of available courts
    * @return a list of matches to be played next
    */
-  public List<Match> getNextMatches(int courts) {
+  public List<Match> getNextMatches() {
     if (currentMatches != null && !currentMatches.isEmpty()) {
       return currentMatches;
     }
@@ -106,7 +107,7 @@ public class Tournament {
         m -> m.getTeam1().getPlayedMatches() + m.getTeam2().getPlayedMatches()));
 
     for (Iterator<Match> iterator = sorted.iterator(); iterator.hasNext();) {
-      if (nextMatches.size() >= courts)
+      if (nextMatches.size() >= this.courts)
         break;
 
       Match match = iterator.next();
@@ -213,6 +214,14 @@ public class Tournament {
 
   public void setTeams(List<Team> teams) {
     this.teams = teams;
+  }
+
+  public int getCourts() {
+    return courts;
+  }
+
+  public void setCourts(int courts) {
+    this.courts = courts;
   }
 
   public List<Team> getStandings() {
